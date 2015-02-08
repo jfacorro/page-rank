@@ -27,13 +27,13 @@
          r-old r]
     (let [r-new (iteration r-old M beta)
           diff  (distance r-old r-new)]
-      (prn :iter (inc i) :new r-new)
+;;      (prn :iter (inc i) :new r-new)
       (if (or (<= (or n max-iterations) (inc i))
               (< diff epsilon))
         r-new
         (recur (inc i) r-new)))))
 
-(comment)
+(comment
   ;; 1
   (let [beta    0.7
         epsilon 0.0000001
@@ -44,11 +44,26 @@
         N       (vec (repeat 3 r))
         result  (power-iteration r M beta epsilon)
         [a b c] (->> result (map (partial * 3)))]
-    (println (reduce + [a b c]))
+    (println (+ a b c))
     (println :a+c (+ a c))
     (println :a+b (+ a b))
     (println :b+c (+ b c)))
 
+  ;; 2
+  (let [beta    0.85
+        epsilon 0.0000001
+        M       [[0   0 1]
+                 [1/2 0 0]
+                 [1/2 1 0]]
+        r       [1 1 1]
+        N       (vec (repeat 3 r))
+        result  (power-iteration r M beta epsilon)
+        [a b c] (->> result (map (partial * 3)))]
+    (println (+ a b c))
+    (println :c=b+.575a c := (+ b (* 0.575 a)))
+    (println :85b=.575a+.15c (* 85 b) := (+ (* 0.15 c) (* 0.575 a))) 
+    (println :.95c=.9b+.475a (* 0.95 c) := (+ (* 0.9 b) (* 0.475 a)))
+    (println :.85c=b+.575a (* 0.85 c) := (+ b (* 0.575 a))))
 
   ;; 3
   (let [M       [[0   0 1]
@@ -58,3 +73,6 @@
         result  (power-iteration r M 1 0.000001 6)]
     (println result)
     (println (map float result)))
+
+
+)
