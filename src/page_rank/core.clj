@@ -18,8 +18,7 @@
   [r M beta]
   (->> (mmul M r)
     (* beta)
-    (sum-1-beta beta)
-    #_normalise-prob))
+    (sum-1-beta beta)))
 
 (defn power-iteration
   [r M beta epsilon & [n]]
