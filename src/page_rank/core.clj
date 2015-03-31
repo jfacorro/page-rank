@@ -5,6 +5,9 @@
 
 (def max-iterations 1000)
 
+(defn build-matrix [n v]
+  (repeat n (repeat n v)))
+
 (defn- sum-1-beta [beta r]
   (let [delta  (/ (- 1 beta) (count r))]
     (map (partial + delta) r)))
@@ -14,19 +17,13 @@
                  (count r))]
     (map (partial + delta) r)))
 
-(defn iteration
-  [r M beta]
-  (->> (mmul M r)
-    (* beta)
-    (sum-1-beta beta)))
-
 (defn power-iteration
-  [r M beta epsilon & [n]]
+  [r A epsilon & [n]]
   (loop [i 0
          r-old r]
-    (let [r-new (iteration r-old M beta)
+    (let [r-new (->> (mmul A r-old) normalise-prob)
           diff  (distance r-old r-new)]
       (if (or (<= (or n max-iterations) (inc i))
-              (< diff epsilon))
+            (< diff epsilon))
         r-new
         (recur (inc i) r-new)))))
